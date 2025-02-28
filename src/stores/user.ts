@@ -1,41 +1,38 @@
-import type { User } from "@/interface/User";
 import { useStorage } from "@vueuse/core";
 import axios from "axios";
 import { defineStore } from "pinia";
 
+export const useAuthStore = defineStore('auth', () => {
+  const Url = 'http://localhost:3000/';
+  const token = useStorage('token', '');
 
-
-export const useAuthStore = defineStore('auth',()=> {
-
-    const Url ='http://localhost:3000/';
-
-    const login = async(email:string,password:string)=>{
-        try{
-            const response = axios.post(`${Url}users/login`,{email,password});
-
-            return {status:(await response).status,data:(await response).data};
-        }catch(error){
-           
-            console.log(error);
-        }
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await axios.post(`${Url}users/login`, { email, password });
+      if (response.status === 200) {
+        token.value = response.data.token; // Guarda el token en el almacenamiento local
+      }
+      return { status: response.status, data: response.data };
+    } catch (error) {
+      console.log(error);
+      return { status: 500, data: null };
     }
+  };
 
-const registerUser = async(email:string,password:string)=>{
-    try{
-        const response = axios.post(`${Url}users/register`,{email,password});
-
-        return {status:(await response).status,data:(await response).data};
-    }catch(error){
-        console.log(error);
+  const registerUser = async (email: string, password: string) => {
+    try {
+      const response = await axios.post(`${Url}users/register`, { email, password });
+      return { status: response.status, data: response.data };
+    } catch (error) {
+      console.log(error);
+      return { status: 500, data: null };
     }
-}
+  };
 
-
-//const logout = 
-
-
-return {
+  
+  return {
     login,
     registerUser,
-}
-})
+    token
+  };
+});
