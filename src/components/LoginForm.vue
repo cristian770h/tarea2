@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router';
 import { useAuthStore } from '@/stores/user';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
@@ -46,6 +47,7 @@ const  onSubmit=handleSubmit (async (values) => {
   const response = await authStore.login(email, password);
   if (response.status === 200) {
     console.log('Login successful:', response.data);
+    router.push('/dashboard')
   } else {
     console.log('Login failed');
   }
