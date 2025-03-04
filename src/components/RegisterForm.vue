@@ -1,35 +1,71 @@
 <template>
+  <!--
+    This example requires updating your template:
 
+    ```
+    <html class="h-full bg-white">
+    <body class="h-full">
+    ```
+  -->
+  <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
+      <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Registrarse</h2>
+    </div>
 
-<form class="max-w-md mx-auto" @submit.prevent="onSubmit" novalidate>
-  <div class="relative z-0 w-full mb-5 group">
-      <input class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
-type="email" name="email"
-      v-model="email"
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form class="space-y-6" @submit.prevent="onSubmit" novalidate>
+        <div>
+          <label for="email" class="block text-sm/6 font-medium text-gray-900">Correo electronico</label>
+          <div class="mt-2">
+            <input
+             type="email"
+             v-model="email"
       v-bind="emailAttrs"
-       placeholder=" " required />
-      <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Correo electronico</label>
-      <label v-if="errors.email" class="text-red">{{ errors.email }}</label>
-  </div>
-  <div class="relative z-0 w-full mb-5 group">
-      <input type="password" 
-      v-model="password"
-      v-bind="passwordAttrs"
-      name="password" id="floating_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label for="floating_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
-  </div>
-  <div class="relative z-0 w-full mb-5 group">
-      <input 
-      type="text"
-       name="repeat_password"
-       v-model="repeat_password"
-       v-bind="repeatAttrs"
-       id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-      <label for="floating_repeat_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
+             name="email" id="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+          </div>
+          <label v-if="errors.email" class="text-red">{{ errors.email }}</label>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm/6 font-medium text-gray-900">Contraseña</label>
+
+          </div>
+          <div class="mt-2">
+            <input type="password"
+            v-model="password"
+            v-bind="passwordAttrs"
+            name="password"
+            id="password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm/6 font-medium text-gray-900">confirmar contraseña</label>
+
+          </div>
+          <div class="mt-2">
+            <input type="password"
+            v-model="repeat_password"
+            v-bind="repeatAttrs"
+            name="password"
+            id="password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Registrarse</button>
+        </div>
+      </form>
+    </div>
   </div>
 
-  <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Submit</button>
-</form>
+
+
+
+
 
 </template>
 
@@ -38,9 +74,9 @@ type="email" name="email"
 import { useAuthStore } from '@/stores/user';
 import * as yup from 'yup';
 import { useForm } from 'vee-validate';
-import {useRouter} from 'vue-router';
+import router from '@/router';
 
-const router=useRouter;
+
 const authStore=useAuthStore();
 
 const{errors,defineField,handleSubmit}=useForm({
@@ -68,11 +104,11 @@ const onSubmit=handleSubmit(async(values)=>{
  const response= await authStore.registerUser(email,password)
  if(response.status===200){
   console.log('Login successful:', response.data);
-   router.push('/')
+   router.push('/login')
  }else{
   console.log('Register failed:', response.data);
  }
-  
+
 })
 
 
