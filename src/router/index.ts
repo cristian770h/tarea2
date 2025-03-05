@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/user'
 import DashboardView from '@/views/DashboardView.vue'
 import MainLayout from '@/components/layout/MainLayout.vue'
 import XSSComponent from '@/components/Attacks/XSSComponent.vue'
+import ItemView from '@/views/ItemView.vue'
 
 const routes = [
   {
@@ -17,7 +18,7 @@ const routes = [
         path: '/',
         name: 'home',
         component: HomeView,
-       
+
       },
       {
         path: 'about',
@@ -30,13 +31,18 @@ const routes = [
         component: RegisterView,
       },
       {
+        path: '/item',
+        name: 'item',
+        component: ItemView,
+      },
+      {
         path: '/dashboard',
         name: 'dashboard',
         component: DashboardView,
         meta: { requiresAuth: true},
       },
     ],
-    
+
   },
   {
     path: '/login',
@@ -61,6 +67,8 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresAuth && !isLoggedIn) {
     next('/login')
+  } else if ((to.path === '/login' || to.path === '/register') && isLoggedIn) {
+    next('/dashboard')
   } else {
     next()
   }

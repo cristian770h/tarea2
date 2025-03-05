@@ -18,8 +18,8 @@
           />
           <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
-        
-        <div> 
+
+        <div>
           <h3 class="text-xl font-bold mb-2">Ejemplos básicos de XSS:</h3>
           <ul class="list-disc list-inside">
             <li v-for="(comment, index) in comments" :key="index" class="mb-2">
@@ -45,7 +45,7 @@
       </div>
     </section>
   </template>
-  
+
   <script setup lang="ts">
   import { onMounted, ref, type Ref } from 'vue'
   import type { Comment } from '@/interface/Comment'
@@ -79,18 +79,17 @@ onMounted(async()=>{
 
 
 
-  
+
   //const show = ref(false)
-  
-  
-  
+
+
+
   //Aqui debemos cambiar código para consumir el endpoint : /attacls/xss
   // Para obtener los comentarios de la base de datos
   // y tambien para enviar los comentarios a la base de datos
-  
+
   //const comments: any[] = [
     //{ comment: '<img src="x" onerror="alert(1)">' },
     //{ comment: '<a href="https://userinyerface.com/" class="btn btn-primary mx-2" > Clickeame </a>' },
   //]
   </script>
-  
