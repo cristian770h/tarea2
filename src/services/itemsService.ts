@@ -2,14 +2,11 @@ import { genericRequest } from "@/utils/genericRequest";
 
 const Url='http://localhost:3000';
 
-
-
-
 export const getItems = async () => {
   return await genericRequest(Url + '/items', 'GET')
 }
 
-export const getItem = async (id: number) => {
+export const getItemById = async (id: number) => {
   return await genericRequest(Url + '/items/'+id, 'GET')
 }
 
@@ -19,7 +16,7 @@ export const createItems = async (name:string, description:string) => {
 }
 
 
-export const updateItems = async (id: number, newItem: string) => {
+export const updateItemsById = async (id: number, newItem: string) => {
   return await genericRequest(Url + '/items/'+id, 'PUT', newItem)
 }
 

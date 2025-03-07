@@ -1,36 +1,62 @@
 <template>
-  <form class="max-w-sm mx-auto" @submit.prevent="onSubmit" novalidate>
-    <div class="mb-5">
-      <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-      <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@flowbite.com"
+  <div class="flex h-96 flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="">
+      <RouterLink to="/" class="text-gray-600 text-sm hover:text-indigo-500 font-semibold">Regresar</RouterLink>
+     
+      <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form class="space-y-6" @submit.prevent="onSubmit" novalidate>
+        <div>
+          <label for="email" class="block text-sm/6 font-medium text-gray-900">Correo electronico</label>
+          <div class="mt-2">
+            <input placeholder="name@flowbite.com"
         type="email"
         name="email"
         v-model="email"
-        v-bind="emailAttrs"
-        id="email" required />
-      <label v-if="errors.email" class="text-red">{{ errors.email }}</label>
+        v-bind="emailAttrs" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+        <label v-if="errors.email" class="text-red">{{ errors.email }}</label>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm/6 font-medium text-gray-900">Contraseña</label>
+           
+          </div>
+          <div class="mt-2">
+            <input v-model="password" v-bind="passwordAttrs" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+        </div>
+      </form>
+
+      <p class="mt-10 text-center text-sm/6 text-gray-500">
+        No tienes cuenta
+        {{ ' ' }}
+        <RouterLink to="/register" class="font-semibold text-indigo-600 hover:text-indigo-500">Registrate</RouterLink>
+      </p>
     </div>
-    <div class="mb-5">
-      <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Your password</label>
-      <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" v-model="password" v-bind="passwordAttrs" required />
-    </div>
-    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
-  </form>
+  </div>
 </template>
 
 <script setup lang="ts">
 import router from '@/router';
 import { useAuthStore } from '@/stores/user';
 import { useForm } from 'vee-validate';
+import { RouterLink } from 'vue-router';
 import * as yup from 'yup';
-
 
 const authStore = useAuthStore();
 
 const { errors, defineField, handleSubmit } = useForm({
   validationSchema: yup.object({
     email: yup.string().required().email(),
-    password: yup.string().required().min(6)
+    password: yup.string().required().min(8)
   })
 });
 
@@ -42,16 +68,15 @@ const [password, passwordAttrs] = defineField('password', {
   validateOnModelUpdate: true,
 });
 
-const  onSubmit=handleSubmit (async (values) => {
+const onSubmit = handleSubmit(async (values) => {
   const { email, password } = values;
   const response = await authStore.login(email, password);
   if (response.status === 200) {
-    console.log('Login successful:', response.data);
-    router.push('/dashboard')
+    alert('Logeo correcto')
+    
+    router.push('/dashboard');
   } else {
-    console.log('Login failed');
+    
   }
 });
 </script>
-
-

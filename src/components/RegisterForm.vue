@@ -1,19 +1,11 @@
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-white">
-    <body class="h-full">
-    ```
-  -->
-  <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="flex min-h-full flex-1 flex-col justify-center px-6  lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
-      <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Registrarse</h2>
+      
+      <h2 class=" text-center text-2xl/9 font-bold tracking-tight text-gray-900">Registrarse</h2>
     </div>
 
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div class="mt- sm:mx-auto sm:w-full sm:max-w-sm">
       <form class="space-y-6" @submit.prevent="onSubmit" novalidate>
         <div>
           <label for="email" class="block text-sm/6 font-medium text-gray-900">Correo electronico</label>
@@ -38,6 +30,7 @@
             v-bind="passwordAttrs"
             name="password"
             id="password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+            <label v-if="errors.passwordAttrs" class="text-red">{{ errors.password }}</label>
           </div>
         </div>
 
@@ -52,6 +45,7 @@
             v-bind="repeatAttrs"
             name="repeat_password"
             id="repeat_password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+            <label v-if="errors.repeat_password" class="text-red">{{ errors.repeat_password }}</label>
           </div>
         </div>
 
@@ -60,11 +54,7 @@
         </div>
       </form>
     </div>
-  </div>
-
-
-
-
+  </div> 
 
 
 </template>
@@ -76,40 +66,37 @@ import * as yup from 'yup';
 import { useForm } from 'vee-validate';
 import router from '@/router';
 
+const authStore = useAuthStore();
 
-const authStore=useAuthStore();
-
-const{errors,defineField,handleSubmit}=useForm({
-  validationSchema:yup.object({
-    email:yup.string().required().email(),
-    password:yup.string().required().min(6),
-    repeat_password:yup.string().oneOf([yup.ref('password')],'Passwords must match')
+const { errors, defineField, handleSubmit } = useForm({
+  validationSchema: yup.object({
+    email: yup.string().required().email(),
+    password: yup.string().required().min(8),
+    repeat_password: yup.string().oneOf([yup.ref('password')], 'Passwords must match')
   })
-})
+});
 
-const [email,emailAttrs]=defineField('email',{
-  validateOnModelUpdate:true
-})
+const [email, emailAttrs] = defineField('email', {
+  validateOnModelUpdate: true
+});
 
-const [password,passwordAttrs]=defineField('password',{
-  validateOnModelUpdate:true
-})
+const [password, passwordAttrs] = defineField('password', {
+  validateOnModelUpdate: true
+});
 
-const [repeat_password,repeatAttrs]=defineField('password',{
-  validateOnModelUpdate:true
-})
+const [repeat_password, repeatAttrs] = defineField('repeat_password', {
+  validateOnModelUpdate: true
+});
 
-const onSubmit=handleSubmit(async(values)=>{
+const onSubmit = handleSubmit(async (values) => {
   const { email, password } = values;
- const response= await authStore.registerUser(email,password)
- if(response.status===200){
-  console.log('Login successful:', response.data);
-   router.push('/login')
- }else{
-  console.log('Register failed:', response.data);
- }
-
-})
-
-
+  const response = await authStore.registerUser(email, password);
+  if (response.status === 200) {
+    console.log('Login successful:', response.data);
+    router.push('/login');
+  } else {
+    alert('Ocurrio algun error inesperado')
+    console.log('Register failed:', response.data);
+  }
+});
 </script>
