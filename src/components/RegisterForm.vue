@@ -30,7 +30,7 @@
             v-bind="passwordAttrs"
             name="password"
             id="password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-            <label v-if="errors.passwordAttrs" class="text-red">{{ errors.password }}</label>
+            <label v-if="errors.password" class="text-red">{{ errors.password }}</label>
           </div>
         </div>
 
@@ -71,8 +71,8 @@ const authStore = useAuthStore();
 const { errors, defineField, handleSubmit } = useForm({
   validationSchema: yup.object({
     email: yup.string().required().email(),
-    password: yup.string().required().min(8),
-    repeat_password: yup.string().oneOf([yup.ref('password')], 'Passwords must match')
+    password: yup.string().required().min(8,'La contraseña debe ser minimo de 8 caracteres').matches(/[!@#$%^&*(),.?":{}|<>]/, 'La contraseña debe contener al menos un carácter especial'),
+    repeat_password: yup.string().oneOf([yup.ref('password')], 'Las contraseñas deben coincidir')
   })
 });
 
